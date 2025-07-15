@@ -133,6 +133,9 @@ terraform init
 terraform apply -auto-approve
 kubectl rollout restart deployment/nginx-app -n devops-challenge
 kubectl rollout status deployment/nginx-app -n devops-challenge
+
+# Probar aplicación
+curl http://devops-challenge.local:30080
 ```
 **🎉 ¡Felicidades! Has desplegado tu aplicación Nginx + Redis mediante Terraform! Intenta ingresar a http://devops-challenge.local:30080 desde tu navegador.**
 
@@ -144,8 +147,12 @@ cd app
 sudo k3s ctr images import nginx-app.tar
 cd ..
 kubectl apply -f k8s-manifests/
+kubectl wait --for=condition=available deployment/nginx-app -n devops-challenge --timeout=60s
 kubectl rollout restart deployment/nginx-app -n devops-challenge
 kubectl rollout status deployment/nginx-app -n devops-challenge
+
+# Probar aplicación
+curl http://devops-challenge.local:30080
 ```
 **🎉 ¡Felicidades! Has desplegado tu aplicación Nginx + Redis mediante Manifiestos K8s! Intenta ingresar a http://devops-challenge.local:30080 desde tu navegador.**
 
