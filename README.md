@@ -20,7 +20,7 @@ En esta guía utilizaremos **Helm** como método principal. Si deseas usar otro 
 
 #### Estructura del Proyecto
 ```
-devops-challenge/
+devops-challenge-LeonelMarini/
 ├── app/                    # Aplicación Nginx personalizada
 ├── helm-chart/            # Chart Helm (método principal)
 ├── terraform-local/        # Alternativa con Terraform
