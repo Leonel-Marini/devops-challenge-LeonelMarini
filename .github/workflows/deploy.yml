@@ -1,0 +1,45 @@
+name: Deploy DevOps Challenge
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: |
+        cd app
+        docker build -t nginx-app:${{ github.sha }} .
+        docker tag nginx-app:${{ github.sha }} nginx-app:latest
+    
+    - name: Test Docker image
+      run: |
+        docker run --rm nginx-app:latest ls -la /usr/share/nginx/html/
+    
+    - name: Setup Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: 'latest'
+      
+    - name: Deploy with Helm (simulation)
+      run: |
+        echo "✅ Image built: nginx-app:${{ github.sha }}"
+        echo "✅ Would deploy with:"
+        echo "helm upgrade --install nginx-app ./helm-chart/nginx-app \\"
+        echo "  --namespace devops-challenge \\"
+        echo "  --create-namespace \\"
+        echo "  --set image.tag=${{ github.sha }} \\"
+        echo "  --wait"
+        
+    - name: Health Check (simulation)
+      run: |
+        echo "✅ Would verify: curl http://localhost:30080"
+        echo "✅ Expected: Hello World + Connected "

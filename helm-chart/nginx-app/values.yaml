@@ -1,0 +1,7 @@
+image:
+  repository: nginx-app
+  tag: local
+  
+replicaCount: 3
+service:
+  nodePort: 30080
